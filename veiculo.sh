@@ -1,5 +1,5 @@
 #!/bin/bash
-# Objects oriented programming?
+# Object-oriented programming?
 # 
 #
 # Mateus Sousa (n00b)
