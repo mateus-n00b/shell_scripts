@@ -1,5 +1,5 @@
 # This script:
-#   provide useful functions for remote_ide.sh
+#   provide useful functions for run.sh
 #
 #
 # Auth Infos
