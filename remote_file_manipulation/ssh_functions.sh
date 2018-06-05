@@ -12,10 +12,12 @@ test_connection(){
   echo $?
 }
 
+# Run remote commands
 ssh_cmd(){
   ssh "$user@$addr" "$1"
 }
 
+# Downloads the files listed in the array
 ssh_download(){
   arr="$1"
   zenity --text-info --auto-scroll <<< $(
