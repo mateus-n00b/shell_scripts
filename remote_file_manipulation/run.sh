@@ -22,6 +22,7 @@ main(){
   if [[ $(test_connection) = "0" ]]; then
   # Locate the desired file
   file_name=$(zenity --entry --title "File selection" --text "Enter a file name or some regex" --width 300 --height 100)
+  [ "$file_name" ] || (zenity --error --text "No name provided!" && exit -1)
 
   # checklist
   chosen_ones=$(zenity --list\
@@ -35,11 +36,17 @@ main(){
   # Handle zenity output
   chosen_ones="$(sed 's/|/\n/g' <<< "$chosen_ones")"
   # Is empty?
-  [ "${chosen_ones}" ] && ssh_download "$chosen_ones"
+  [ "${chosen_ones}" ] && ssh_download "$chosen_ones" || exit 0
+  while [ 1 ]
+  do
+    look_updates
+    sleep "$VERIFY_INTERVAL"
+  done
 
   else
       # printf "${RED}Error on connection!${NC}\n"
       zenity --error --text "Error on connection!" --width 100 --height 50
+      exit -1
   fi
 }
 
