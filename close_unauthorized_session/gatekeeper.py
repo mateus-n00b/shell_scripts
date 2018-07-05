@@ -4,16 +4,24 @@ from threading import Thread
 import os,time
 
 p = Tk()
-Clicks = 0
+Clicks = 0 # total of clicks
+PASS = 6 # your pass
+TTL = 14 # time to die
 
 def gatekeeper():
-    time.sleep(15)
     try:
         initial_pos = p.winfo_pointerxy()
         while 1:
             posxy = p.winfo_pointerxy()
             if posxy != initial_pos:
-                os.system("gnome-session-quit --force")
+                t = Thread(None, target=tic_tac)
+                t.start()
+
+                widget = Button(None, text="Click-me or I'll close your session :)")
+                widget.pack()
+                widget.bind('<Button-1>', check_clicks)
+                widget.mainloop()
+
             time.sleep(0.5)
     except:
            os.system("gnome-session-quit --force")
@@ -21,17 +29,15 @@ def gatekeeper():
 
 def check_clicks(event):
     global Clicks
-    if Clicks == 5:
+    if Clicks == PASS:
         print "You're welcome!"
         exit(-1)
     else:
         Clicks+=1
 
-if __name__ == '__main__':
-    t = Thread(None, target=gatekeeper)
-    t.start()
+def tic_tac():
+    time.sleep(TTL) # Death time
+    os.system("gnome-session-quit --force")
 
-    widget = Button(None, text="Click-me or I'll close your session :)")
-    widget.pack()
-    widget.bind('<Button-1>', check_clicks)
-    widget.mainloop()
+if __name__ == '__main__':
+    gatekeeper()
